@@ -195,7 +195,7 @@ public class CameraRayTest : MonoBehaviour {
     {
         if (modelPerfab == null) return;
         modelPerfab.transform.position = panelFlag.transform.position;
-        modelPerfab.transform.rotation = panelFlag.transform.rotation;
+        //modelPerfab.transform.rotation = panelFlag.transform.rotation;
         if (modelPerfab.activeSelf == false)
         {
             modelPerfab.SetActive(true);
