@@ -327,8 +327,13 @@ public class MyDirectionsFactory : MonoBehaviour
             //      + Vector3.up * ct.getOffsetPosition().y
             //      + Vector3.forward * ct.getOffsetPosition().z;
             //Debug.Log("=============================="+p);
+            //p = Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz()
+            //   + ct.getOffsetPosition() + _map.transform.position;
             p = Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz()
-                  +ct.getOffsetPosition()+_map.transform.position;
+                  +ct.getOffsetPosition();
+            //Debug.Log(ct.getOffsetPosition());
+            //Debug.Log(_map.transform.position);
+            //Debug.Log("==============================" + p);
             //dat.Add(Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz());
             dat.Add(p);
             
