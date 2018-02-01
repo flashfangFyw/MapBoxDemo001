@@ -28,14 +28,15 @@ public class MyDirectionsFactory : MonoBehaviour
 {
 
     #region public property
+    public CameraRayTest ct;
     [SerializeField]
     AbstractMap _map;
 
     [SerializeField]
     MeshModifier[] MeshModifiers;
 
-    [SerializeField]
-    List<Transform> _waypoints;
+    //[SerializeField]
+    //List<Transform> _waypoints;
 
     [SerializeField]
     Material[] _material;
@@ -49,8 +50,8 @@ public class MyDirectionsFactory : MonoBehaviour
 
     public List<List<int>> routeList = new List<List<int>> {
                                                              new List<int> { 1, 3 },
-                                                             new List<int> { 2, 1},
-                                                             new List<int> { 4, 2 }
+                                                             //new List<int> { 2, 1},
+                                                             //new List<int> { 4, 2 }
                                                             };
 
 
@@ -113,6 +114,20 @@ public class MyDirectionsFactory : MonoBehaviour
             countFinish = true;
             CheckIfCreatRoute();
         }
+        //================================
+        //GameObject pb = movePerfab[routeCount];
+        //GameObject car = GameObject.Instantiate(pb) as GameObject;
+        //if (car == null)
+        //{
+        //    Debuger.Log("=====================================================go is null ");
+        //    return;
+        //}
+        //car.name =index+"";
+        ////car.transform.localScale = Vector3.one;
+        ////car.transform.localPosition = Vector3.zero;
+        ////car.transform.localRotation = Quaternion.identity;
+        //car.transform.position = trans.position;
+        ////car.transform.SetParent(this.transform, true);
 
     }
     private void CheckIfCreatRoute()
@@ -135,6 +150,8 @@ public class MyDirectionsFactory : MonoBehaviour
             DoWayPoint(rt);
             if (routeCount <= i) yield return null;
         }
+        Debug.Log("CreatRoute is Finished");
+        if (ct) ct.LoactionTheModel();
     }
     
    
@@ -236,6 +253,7 @@ public class MyDirectionsFactory : MonoBehaviour
         //iTween.MoveTo(car, hash);
         //======================================================
         //Debug.Log("routeCount ADD~~~~~~~~~~~~~~~~" + routeCount)/*;*/
+        //return;
         MoveToWaypoint(routeCount);
     }
   
@@ -304,13 +322,13 @@ public class MyDirectionsFactory : MonoBehaviour
         var dat = new List<Vector3>();
         foreach (var point in response.Routes[0].Geometry)
         {
-            dat.Add(Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz());
+            dat.Add(Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz());// +Vector3.up*_map.transform.position.y);
         }
 
         var feat = new VectorFeatureUnity();
         feat.Points.Add(dat);
-        if (movePerfab!=null&& movePerfab.Length>0) MoveTheCar(dat);
-        
+        if (movePerfab != null && movePerfab.Length > 0) MoveTheCar(dat);
+
         foreach (MeshModifier mod in MeshModifiers.Where(x => x.Active))
         {
             var lineMod = mod as LineMeshModifier;

@@ -194,7 +194,7 @@ public class CameraRayTest : MonoBehaviour {
     private void ShowGameObject()
     {
         if (modelPerfab == null) return;
-        modelPerfab.transform.position = panelFlag.transform.position;
+        //modelPerfab.transform.position = panelFlag.transform.position;
         //modelPerfab.transform.rotation = panelFlag.transform.rotation;
         if (modelPerfab.activeSelf == false)
         {
@@ -208,6 +208,10 @@ public class CameraRayTest : MonoBehaviour {
         TogglePanelFlag(false);
 		flagModel=true;
         //modelState = true;
+    }
+    public void LoactionTheModel()
+    {
+        modelPerfab.transform.position = panelFlag.transform.position;
     }
 	private bool flagModel=false;
     private void CheckFace()
