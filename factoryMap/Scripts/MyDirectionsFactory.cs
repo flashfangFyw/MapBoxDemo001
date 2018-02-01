@@ -45,7 +45,7 @@ public class MyDirectionsFactory : MonoBehaviour
     float _directionsLineWidth;
 
     public GameObject[] movePerfab;
-	private List<float> speedList = new List<float> { 0.1f, 0.5f,0.75f };
+	private List<float> speedList = new List<float> { 0.1f, 0.1f, 0.1f };
 
 
     public List<List<int>> routeList = new List<List<int>> {
@@ -179,7 +179,7 @@ public class MyDirectionsFactory : MonoBehaviour
         //    Destroy(_directionsGO);
         //}
         GameObject _directionsGO = new GameObject("direction waypoint " + " entity"+routeCount);
-        _directionsGO.transform.SetParent(this.transform,false);
+        //_directionsGO.transform.SetParent(this.transform,false);
         var mesh = _directionsGO.AddComponent<MeshFilter>().mesh;
         mesh.subMeshCount = data.Triangles.Count;
 
@@ -222,9 +222,8 @@ public class MyDirectionsFactory : MonoBehaviour
         car.transform.localPosition = Vector3.zero;
         car.transform.localRotation = Quaternion.identity;
         car.transform.position = data[0];
-        car.transform.SetParent(this.transform, false);
+        //car.transform.SetParent(this.transform, false);
        
-
 
 
         //car.transform.position = data[0];
@@ -273,15 +272,14 @@ public class MyDirectionsFactory : MonoBehaviour
         hash.Add("easetype", "linear");
         hash.Add("speed", speedList[index]);//speedList[index]
         hash.Add("islocal", true);
-        hash.Add("axis", "y");
+        //hash.Add("axis", "y");
         hash.Add("oncomplete", "MoveToWaypoint");
         hash.Add("oncompleteparams", index);
         hash.Add("oncompletetarget", gameObject);
-        //hash.Add("orienttopath", true);
-        hash.Add("Looktarget", _dicRouteData[index][_dicCurrrenWaypoint[index]]);
+        hash.Add("orienttopath", true);
+        //hash.Add("Looktarget", _dicRouteData[index][_dicCurrrenWaypoint[index]]);
         //hash.Add("Looktarget", car.transform.TransformPoint(car.transform.InverseTransformPoint(data[currentWaypoint])));
-        hash.Add("looktime", .4);
-        //iTweenPath.GetPathReversed
+        //hash.Add("looktime", .4);
 
         //iTween:
         iTween.MoveTo(_dicCar[index], hash);
@@ -322,7 +320,16 @@ public class MyDirectionsFactory : MonoBehaviour
         var dat = new List<Vector3>();
         foreach (var point in response.Routes[0].Geometry)
         {
-            dat.Add(Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz());// +Vector3.up*_map.transform.position.y);
+            Vector3 p = Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz();
+            Debug.Log(p);
+            p = Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz()
+                  + Vector3.right * ct.getOffsetPosition().x
+                  + Vector3.up * ct.getOffsetPosition().y
+                  + Vector3.forward * ct.getOffsetPosition().z;
+            Debug.Log("=============================="+p);
+            //dat.Add(Conversions.GeoToWorldPosition(point.x, point.y, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz());
+            dat.Add(p);
+            
         }
 
         var feat = new VectorFeatureUnity();

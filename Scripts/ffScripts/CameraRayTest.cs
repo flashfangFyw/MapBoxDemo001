@@ -201,13 +201,20 @@ public class CameraRayTest : MonoBehaviour {
             modelPerfab.SetActive(true);
             if(modelPerfab.GetComponent<BasicMap>())
             {
-				modelPerfab.BroadcastMessage("InitMap", SendMessageOptions.DontRequireReceiver);
+                //modelPerfab.GetComponent<BasicMap>().InitMap(panelFlag.transform.position);
+                offsetPosition = panelFlag.transform.position;
+                modelPerfab.BroadcastMessage("InitMap", panelFlag.transform, SendMessageOptions.DontRequireReceiver);
             }
         }
         //CheckFace();
         TogglePanelFlag(false);
 		flagModel=true;
         //modelState = true;
+    }
+    private Vector3 offsetPosition = Vector3.one;
+    public Vector3 getOffsetPosition()
+    {
+        return offsetPosition;
     }
     public void LoactionTheModel()
     {
